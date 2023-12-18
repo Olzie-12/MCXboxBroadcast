@@ -3,8 +3,6 @@ package com.rtm516.mcxboxbroadcast.bootstrap.geyser;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.github.steveice10.packetlib.event.session.DisconnectedEvent;
-import com.github.steveice10.packetlib.event.session.SessionAdapter;
 import com.rtm516.mcxboxbroadcast.bootstrap.geyser.player.PlayerImpl;
 import com.rtm516.mcxboxbroadcast.bootstrap.geyser.player.converter.EssentialsPlayer;
 import com.rtm516.mcxboxbroadcast.core.Logger;
@@ -13,12 +11,8 @@ import com.rtm516.mcxboxbroadcast.core.SessionManager;
 import com.rtm516.mcxboxbroadcast.core.configs.ExtensionConfig;
 import com.rtm516.mcxboxbroadcast.core.exceptions.SessionCreationException;
 import com.rtm516.mcxboxbroadcast.core.exceptions.SessionUpdateException;
-import com.rtm516.mcxboxbroadcast.core.exceptions.XboxFriendsException;
-import com.rtm516.mcxboxbroadcast.core.models.session.FollowerResponse;
 import com.rtm516.mcxboxbroadcast.core.player.Player;
 import org.geysermc.event.subscribe.Subscribe;
-import org.geysermc.floodgate.util.Utils;
-import org.geysermc.floodgate.util.WhitelistUtils;
 import org.geysermc.geyser.GeyserImpl;
 import org.geysermc.geyser.api.command.Command;
 import org.geysermc.geyser.api.command.CommandSource;
@@ -26,10 +20,7 @@ import org.geysermc.geyser.api.event.bedrock.SessionJoinEvent;
 import org.geysermc.geyser.api.event.lifecycle.GeyserDefineCommandsEvent;
 import org.geysermc.geyser.api.event.lifecycle.GeyserPostInitializeEvent;
 import org.geysermc.geyser.api.extension.Extension;
-import org.geysermc.geyser.api.network.AuthType;
-import org.geysermc.geyser.api.util.PlatformType;
 import org.geysermc.geyser.session.GeyserSession;
-import org.geysermc.platform.standalone.GeyserStandaloneLogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -242,23 +233,6 @@ public class MCXboxBroadcastExtension implements Extension, Runnable {
         } catch (SessionUpdateException e) {
             sessionManager.logger().error("Failed to update session information!", e);
         }
-
-        // If we are in spigot, using floodgate authentication and have the config option enabled
-        // get the users friends and whitelist them
-//        if (this.geyserApi().defaultRemoteServer().authType() == AuthType.FLOODGATE
-//                && this.geyserApi().platformType() == PlatformType.SPIGOT // TODO Find API equivalent
-//                && config.whitelistFriends()) {
-//            try {
-//                SpigotPlugin spigotPlugin =
-//                for (FollowerResponse.Person person : sessionManager.friendManager().get()) {
-//                    if (WhitelistUtils.addPlayer(Utils.getJavaUuid(person.xuid), "unknown", new SpigotVersionSpecificMethods())) {
-//                        sessionManager.logger().info("Added xbox friend " + person.displayName + " to whitelist");
-//                    }
-//                }
-//            } catch (XboxFriendsException e) {
-//                sessionManager.logger().error("Failed to fetch xbox friends for whitelist!", e);
-//            }
-//        }
     }
 
     public static UUID getJavaUuid(long xuid) {
